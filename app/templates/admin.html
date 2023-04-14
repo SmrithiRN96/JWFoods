@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>ADMIN</title>
+		<link href="/static/css/styles.css" rel="stylesheet" />
+		
+	</head>
+	<body>
+	<!--{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			{% for msg in messages %}
+				<p>{{msg}}</p>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}-->
+	<section class="page-section bg-light">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">ADMIN UPDATION FORM</h2>
+                    <h3 class="section-subheading text-muted">Please enter the updated Coefficients</h3>
+                <form method = "POST" id = "updateForm" name = "updateForm" action = "./update">
+			<label for="weight">Update Weight Coefficient : </label><br />
+			<input type="text" id="weight" name="weight" />
+			<br><br>
+			<label for="distance">Update Distance Coefficient : </label><br />
+			<input type="text" id="distance" name="distance" />
+			<br><br>
+			<input type="button" id="btnSubmit" name="btnSubmit" value="Submit" />
+		</form>
+		<br>
+		<h3><div id="outputContent"></div></h3>
+		<br>
+		<form method = "POST" id = "homeForm" name = "homeForm" action = "./home">	
+			<br><br>
+			<input type="button" id="btnHome" name="btnHome" value="HOME" />
+		</form>	    
+            </div>
+        </section>
+		<script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script>
+		$(document).ready(function() {
+			console.log("Document Loaded");
+			
+			$("#btnSubmit").click(function(event) {
+				var form = $("#updateForm");
+				var url = "http://localhost:8080/update"
+				
+				$.ajax( {
+					type : "POST",
+					url : url,
+					data : form.serialize(),
+					success : function(response) {
+						console.log("SUCCESS : ", response);
+						$("#outputContent").text("!! Successfully Updated !!");
+					},
+					error : function(e) {
+						console.log("ERROR : ", e);
+					}
+				});
+			});
+			
+			$("#btnHome").click(function(event) {
+				var form = $("#homeForm");
+				var url = "http://localhost:8080/logout"
+				
+				$.ajax( {
+					type : "GET",
+					url : url,
+					data : form.serialize(),
+					success : function(response) {
+						window.location.href = url;
+						console.log("SUCCESS : ", response);
+					},
+					error : function(e) {
+						console.log("ERROR : ", e);
+					}
+				});
+			});
+			
+		});
+		$(window).on("load", function() {
+			console.log("Window Loaded");
+		});
+		</script>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>JWFoods</title>
+		
+	</head>
+	<body>
+		<form method = "POST" id = "deliveryCalculatorForm" name = "deliveryCalculatorForm" action = "./deliverycost">
+			<label for="weight">Weight : </label><br />
+			<input type="text" id="weight" name="weight" />
+			<br><br>
+			<label for="distance">Distance : </label><br />
+			<input type="text" id="distance" name="distance" />
+			<br><br>
+			<input type="button" id="btnSubmit" name="btnSubmit" value="Submit" />
+		</form>
+		
+		<br>
+		<div id="outputContent"> Delivery Price </div>
+		
+		<form method = "POST" id = "loginForm" name = "loginForm" action = "admin.html">	
+			<br><br>
+			<input type="button" id="btnLogin" name="btnLogin" value="ADMIN Login" />
+		</form>
+		
+		<script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script>
+		$(document).ready(function() {
+			console.log("Document Loaded");
+			
+			$("#btnSubmit").click(function(event) {
+				var form = $("#deliveryCalculatorForm");
+				var url = "http://localhost:8080/deliverycost"
+				
+				$.ajax( {
+					type : "POST",
+					url : url,
+					data : form.serialize(),
+					success : function(response) {
+						console.log("SUCCESS : ", response);
+						$("#outputContent").text("$ " + response.data);
+					},
+					error : function(e) {
+						console.log("ERROR : ", e);
+						$("#outputContent").text(e.responseText);
+					}
+				});
+			});
+			
+			$("#btnLogin").click(function(event) {
+				var form = $("#loginForm");
+				var url = "http://localhost:8080/login"
+				
+				$.ajax( {
+					type : "GET",
+					url : url,
+					data : form.serialize(),
+					success : function(response) {
+						window.location.href = url;
+						console.log("SUCCESS : ", response);
+					},
+					error : function(e) {
+						console.log("ERROR : ", e);
+					}
+				});
+			});
+			
+		});
+		$(window).on("load", function() {
+			console.log("Window Loaded");
+		});
+		</script>
+	</body>
+</html>
